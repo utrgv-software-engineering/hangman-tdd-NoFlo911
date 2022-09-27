@@ -36,7 +36,7 @@ void main() {
     final guessLetterTextFinder = find.byValueKey('guess-letter-text');
 
     expect(await driver.getText(guessLetterTextFinder), "Guess Letter");
-  }, skip: true);
+  });
 
   test(
       'Once we are at our game screen, we should be able to guess the letter b and the game should register it as one correct letter',
@@ -58,7 +58,7 @@ void main() {
 
     //We expect for the game to now have registered that we have correctly guessed the first letter of the word banana that we instantiated it with
     expect(await driver.getText(findLettersLeftProgressField), 'b-----');
-  }, skip: true);
+  });
 
   test(
       'After guessing the letter n, we are expecting the game to continue registering it as a correct guess and updating our progress',
@@ -77,7 +77,7 @@ void main() {
 
     //We expect the game to register our guess of the letter n as correct and update our progress
     expect(await driver.getText(findLettersLeftProgressField), 'b-n-n-');
-  }, skip: true);
+  });
 
   test(
       'Guess an incorrect letter z, and expect for it to be added to our incorrect guesses list',
@@ -99,7 +99,7 @@ void main() {
 
     //We expect to see that our incorrect guess has been added to the list of incorrect guesses
     expect(await driver.getText(findWrongGuessesField), 'Wrong Guesses: z');
-  }, skip: true);
+  });
 
   test(
       'Once I have guessed all correct letters of a word, the game should be over and I should be navigated to the Win Screen',
@@ -118,7 +118,7 @@ void main() {
 
     //If we are successfully renavigated to the win screen we can expect to see this text
     expect(await driver.getText(findWinText), 'You Win');
-  }, skip: true);
+  });
 
   test('After winning the game, we should be able to start a new one',
       () async {
@@ -131,7 +131,7 @@ void main() {
 
     //If successfully navigated back to the game screen we should find our guessing field
     expect(await driver.getText(guessLetterTextFinder), "Guess Letter");
-  }, skip: true);
+  });
 
   test('We should lose the game by incorrectly guessing 7 times in a row',
       () async {
@@ -152,7 +152,7 @@ void main() {
 
     //After incorrectly guessing 7 times, we expect to be renavigated to the Lose Screen
     expect(await driver.getText(findLoseText), 'You Lose');
-  }, skip: true);
+  });
 
   test('After losing a game, we should be able to start a new one', () async {
     //Here we assign variables using the keys we have placed on our widgets in our screens folder so we can use them in this test
@@ -162,7 +162,7 @@ void main() {
     //After tapping the new game button on the Lose Screen, we should be renavigated to the game screen
     await driver.tap(newGameBtn);
     expect(await driver.getText(guessLetterTextFinder), "Guess Letter");
-  }, skip: true);
+  });
 
   test('Guessing the same correct letter should return an error message',
       () async {
@@ -187,7 +187,7 @@ void main() {
 
     //Expect to get this error message back from the game
     await driver.waitFor(find.text("already used that letter"));
-  }, skip: true);
+  });
 
   test('Guessing the same incorrect letter should return an error message',
       () async {
@@ -210,7 +210,7 @@ void main() {
 
     //Expect to get this error message back from the game
     await driver.waitFor(find.text("already used that letter"));
-  }, skip: true);
+  });
 
   test(
       'When guessing an character that is not alphanumeric, we expect an invalid message from the game',
@@ -225,7 +225,7 @@ void main() {
     await driver.enterText(invalidCharacter);
     await driver.tap(guessLetterBtnFinder);
     await driver.waitFor(find.text("invalid"));
-  }, skip: true);
+  });
 
   test(
       'When guessing a string that contains multiple letters, we expect an invalid message from the game',
@@ -240,5 +240,5 @@ void main() {
     await driver.enterText(invalidCharacter);
     await driver.tap(guessLetterBtnFinder);
     await driver.waitFor(find.text("invalid"));
-  }, skip: true);
+  });
 }
