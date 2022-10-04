@@ -19,7 +19,6 @@ class HangmanGame {
     int _correctGuesses_index = 0;
 
     if (_word.length <= 8) {
-      // int _correctGuesses_index = 0;
       if (_correctGuesses.length != 0) {
         //This checks whether the current correct guess appears more than once
         //in the word
