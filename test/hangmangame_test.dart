@@ -3,6 +3,124 @@ import 'package:hangman_game/models/hangmangame.dart';
 
 void main() {
   //This test group will run several tests on the constructor of our hangmanGame class
+  group("Test Scoring Logic", () {
+    test('Function score() should be zero initially', () {
+      String word = 'glorp';
+      final hangmanGame = HangmanGame(word);
+      expect(hangmanGame.score(), 0);
+    });
+    test("after a single correct guess", () {
+      String word = 'glorp';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+
+      hangmanGame.guess('o');
+      expect(hangmanGame.score(), 10);
+    });
+    test("after a single incorrect guess", () {
+      String word = 'glorp';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('a');
+
+      expect(hangmanGame.score(), -5);
+    });
+    test("after multiple correct guesses", () {
+      String word = 'glorp';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('g');
+      hangmanGame.guess('l');
+      hangmanGame.guess('o');
+      expect(hangmanGame.score(), 30);
+    });
+    test("after multiple incorrect guesses", () {
+      String word = 'glorp';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('a');
+      hangmanGame.guess('b');
+      hangmanGame.guess('c');
+      expect(hangmanGame.score(), -15);
+    });
+    test("after some correct and some incorrect guesses", () {
+      String word = 'glorp';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('g');
+      hangmanGame.guess('l');
+      hangmanGame.guess('o');
+      hangmanGame.guess('a');
+      hangmanGame.guess('b');
+      hangmanGame.guess('c');
+      expect(hangmanGame.score(), 15);
+    });
+    test("after all letters guessed", () {
+      String word = 'glorp';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('g');
+      hangmanGame.guess('l');
+      hangmanGame.guess('o');
+      hangmanGame.guess('r');
+      hangmanGame.guess('p');
+
+      expect(hangmanGame.score(), 50);
+    });
+    test("word length greater than 8", () {
+      String word = 'glorpsisy';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('g');
+      hangmanGame.guess('l');
+      hangmanGame.guess('o');
+      hangmanGame.guess('r');
+      hangmanGame.guess('p');
+      hangmanGame.guess('a');
+      hangmanGame.guess('b');
+      expect(hangmanGame.score(), 96);
+    });
+    test("word length equal to 8", () {
+      String word = 'glorpabc';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('g');
+      hangmanGame.guess('l');
+      hangmanGame.guess('o');
+      hangmanGame.guess('r');
+      hangmanGame.guess('p');
+      hangmanGame.guess('a');
+      hangmanGame.guess('b');
+      hangmanGame.guess('c');
+      expect(hangmanGame.score(), 80);
+    });
+    test("word length greater than 8 and guessed letter appears more than once",
+        () {
+      String word = 'glorpsisy';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('s');
+      expect(hangmanGame.score(), 40);
+    });
+
+    test("word length equal to 8 and guessed letter appears more than once",
+        () {
+      String word = 'glorpsis';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('s');
+      expect(hangmanGame.score(), 20);
+    });
+
+    test("word length less than 8 and guessed letter appears more than once",
+        () {
+      String word = 'banana';
+      //pass word to game constructor and create object called hangmanGame
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('n');
+      expect(hangmanGame.score(), 20);
+    });
+  });
   group('Test Hangman Constructor', () {
     test('Function word() should return the word given to constructor', () {
       //make a variable that we will use to pass to the constructor as our word

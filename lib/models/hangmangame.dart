@@ -4,12 +4,54 @@ class HangmanGame {
   String _word;
   String _correctGuesses = "";
   String _wrongGuesses = "";
+  int _score;
 
   //Constructor starts off with blank strings that we will concatenate during the course of play
   HangmanGame(String word) {
     _word = word;
     _correctGuesses = "";
     _wrongGuesses = "";
+    _score = 0;
+  }
+
+  int score() {
+    //This keeps track of the users current Guess
+    int _correctGuesses_index = 0;
+
+    if (_word.length <= 8) {
+      if (_correctGuesses.length != 0) {
+        //This checks whether the current correct guess appears more than once
+        //in the word
+        if (_correctGuesses[_correctGuesses_index].allMatches(_word).length >
+            1) {
+          _score += 10;
+        }
+        _score += 10 * (_correctGuesses.length);
+        //This increments each time to keep track of the user's
+        //current Guess within correctGuesses_index
+        _correctGuesses_index++;
+      }
+      if (_wrongGuesses.length != 0) {
+        _score -= 5 * (_wrongGuesses.length);
+      }
+    }
+    //Point deductions are cut in half when the word length is greater than 8
+    //Point addition is doubled when the word length is greater than 8
+    else {
+      if (_correctGuesses.length != 0) {
+        if (_correctGuesses[_correctGuesses_index].allMatches(_word).length >
+            1) {
+          _score += 20;
+        }
+        _score += 20 * (_correctGuesses.length);
+        _correctGuesses_index++;
+      }
+      if (_wrongGuesses.length != 0) {
+        _score -= 2 * (_wrongGuesses.length);
+      }
+    }
+
+    return _score;
   }
 
   String correctGuesses() {
@@ -57,6 +99,7 @@ class HangmanGame {
 
   String blanksWithCorrectGuesses() {
     // TODO: Fill this in
+
     String finalanswer = "";
     for (int i = 0; i < _word.length; i++) {
       if (_correctGuesses.contains(_word[i])) {
