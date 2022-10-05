@@ -6,6 +6,7 @@ import 'gamescreen.dart';
 
 class LoseScreen extends StatelessWidget {
   HangmanGame game;
+
   //This should be modified to take in a HangmanGame
   LoseScreen(this.game);
 
@@ -19,6 +20,8 @@ class LoseScreen extends StatelessWidget {
             //Here we are giving the lose game button a key for use in our integration tests in test_driver/app_test.dart
             Text("You Lose",
                 style: TextStyle(fontSize: 50), key: Key('lose-game-text')),
+            Text("Score: ${this.game.score()}",
+                style: TextStyle(fontSize: 16), key: Key('score-text')),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 60, 0, 0),
             ),
@@ -30,6 +33,7 @@ class LoseScreen extends StatelessWidget {
             ),
             Text('Your word was: ${game.word()}',
                 style: TextStyle(fontSize: 25)),
+
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 50),
             ),

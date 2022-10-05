@@ -15,42 +15,6 @@ class HangmanGame {
   }
 
   int score() {
-    //This keeps track of the users current Guess
-    int _correctGuesses_index = 0;
-
-    if (_word.length <= 8) {
-      if (_correctGuesses.length != 0) {
-        //This checks whether the current correct guess appears more than once
-        //in the word
-        if (_correctGuesses[_correctGuesses_index].allMatches(_word).length >
-            1) {
-          _score += 10;
-        }
-        _score += 10 * (_correctGuesses.length);
-        //This increments each time to keep track of the user's
-        //current Guess within correctGuesses_index
-        _correctGuesses_index++;
-      }
-      if (_wrongGuesses.length != 0) {
-        _score -= 5 * (_wrongGuesses.length);
-      }
-    }
-    //Point deductions are cut in half when the word length is greater than 8
-    //Point addition is doubled when the word length is greater than 8
-    else {
-      if (_correctGuesses.length != 0) {
-        if (_correctGuesses[_correctGuesses_index].allMatches(_word).length >
-            1) {
-          _score += 20;
-        }
-        _score += 20 * (_correctGuesses.length);
-        _correctGuesses_index++;
-      }
-      if (_wrongGuesses.length != 0) {
-        _score -= 2 * (_wrongGuesses.length);
-      }
-    }
-
     return _score;
   }
 
@@ -68,31 +32,36 @@ class HangmanGame {
 
   bool guess(String letter) {
     // TODO: Fill this in
-    if (letter == null || letter.length > 1) {
+    RegExp is_a_letter = new RegExp(r'[a-zA-Z]');
+    if (letter == null || letter.length > 1 || !is_a_letter.hasMatch(letter)) {
       throw ArgumentError();
-    } else if (_word.contains(letter.toLowerCase()) &&
-        !_correctGuesses.contains(letter.toLowerCase()) &&
-        ((letter.codeUnitAt(0) >= 65 && letter.codeUnitAt(0) <= 90) ||
-            (letter.codeUnitAt(0) >= 97 && letter.codeUnitAt(0) <= 122))) {
-      _correctGuesses += letter;
-    } else if (!_word.contains(letter.toLowerCase()) &&
-        !_wrongGuesses.contains(letter.toLowerCase()) &&
-        ((letter.codeUnitAt(0) >= 65 && letter.codeUnitAt(0) <= 90) ||
-            (letter.codeUnitAt(0) >= 97 && letter.codeUnitAt(0) <= 122))) {
-      _wrongGuesses += letter;
-    } else if ((_word.contains(letter.toLowerCase()) &&
-            _correctGuesses.contains(letter.toLowerCase()) &&
-            ((letter.codeUnitAt(0) >= 65 && letter.codeUnitAt(0) <= 90) ||
-                (letter.codeUnitAt(0) >= 97 && letter.codeUnitAt(0) <= 122))) ||
-        (!_word.contains(letter.toLowerCase()) &&
-            _wrongGuesses.contains(letter.toLowerCase()) &&
-            ((letter.codeUnitAt(0) >= 65 && letter.codeUnitAt(0) <= 90) ||
-                (letter.codeUnitAt(0) >= 97 && letter.codeUnitAt(0) <= 122)))) {
+    }
+    letter = letter.toLowerCase();
+    if ((_correctGuesses.contains(letter)) ||
+        (_wrongGuesses.contains(letter))) {
       return false;
-    } else if ((letter.codeUnitAt(0) > 90 && letter.codeUnitAt(0) < 97) ||
-        (letter.codeUnitAt(0) > 122) ||
-        (letter.codeUnitAt(0) < 65)) {
-      throw ArgumentError();
+    }
+
+    if (_word.contains(letter)) {
+      _correctGuesses += letter;
+      if (_word.length <= 8) {
+        if (letter.allMatches(_word).length > 1) {
+          _score += 10;
+        }
+        _score += 10;
+      } else {
+        if (letter.allMatches(_word).length > 1) {
+          _score += 20;
+        }
+        _score += 20;
+      }
+    } else {
+      _wrongGuesses += letter;
+      if (_word.length <= 8) {
+        _score -= 5;
+      } else {
+        _score -= 2;
+      }
     }
     return true;
   }

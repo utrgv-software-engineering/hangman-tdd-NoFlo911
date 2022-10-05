@@ -55,6 +55,19 @@ void main() {
       hangmanGame.guess('c');
       expect(hangmanGame.score(), 15);
     });
+    test("guessing incorrectly 7 times", () {
+      String word = 'blarpy';
+      final hangmanGame = HangmanGame(word);
+      hangmanGame.guess('e');
+      hangmanGame.guess('j');
+      hangmanGame.guess('d');
+      hangmanGame.guess('s');
+      hangmanGame.guess('m');
+      hangmanGame.guess('k');
+      hangmanGame.guess('n');
+      expect(hangmanGame.score(), -35);
+    });
+
     test("after all letters guessed", () {
       String word = 'glorp';
       //pass word to game constructor and create object called hangmanGame
