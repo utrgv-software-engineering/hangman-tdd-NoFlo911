@@ -5,6 +5,8 @@ import 'package:hangman_game/config/globals.dart';
 import 'gamescreen.dart';
 
 class WinScreen extends StatelessWidget {
+  HangmanGame game;
+  WinScreen(this.game);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,12 +18,15 @@ class WinScreen extends StatelessWidget {
             //Here we are giving the win game text field a key for use in our integration tests in test_driver/app_test.dart
             Text("You Win",
                 style: TextStyle(fontSize: 50), key: Key('win-game-text')),
+            Text("Score: ${this.game.score()}",
+                style: TextStyle(fontSize: 16), key: Key('score-text')),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
             ),
             SizedBox(
                 height: 300,
                 child: Image(image: AssetImage('assets/progress_8.png'))),
+
             Padding(
               padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
             ),

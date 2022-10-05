@@ -35,6 +35,7 @@ class _GameScreenState extends State<GameScreen> {
                     child: Center(
                         child:
                             Text("Hangman", style: TextStyle(fontSize: 50)))),
+                //Text("Score: ${widget.game.score()}", key: Key('score-text')),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Center(
@@ -55,6 +56,8 @@ class _GameScreenState extends State<GameScreen> {
                       key: Key('wrong-guesses'),
                       style: TextStyle(fontSize: 17)),
                 ),
+                Text("Score: ${widget.game.score()}",
+                    style: TextStyle(fontSize: 16), key: Key('score-text')),
                 Row(
                   children: <Widget>[
                     ElevatedButton(
@@ -72,6 +75,7 @@ class _GameScreenState extends State<GameScreen> {
 
                             try {
                               // TODO: Calling the guess function on the game and passing it 'userGuess'
+
                               widget.game.guess(letter);
                               // TODO: Uncomment the following lines and get them to work. Follow the order of the tests, not the order that the TODOs they appear in the code.
                               //its a repeat
@@ -96,7 +100,8 @@ class _GameScreenState extends State<GameScreen> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => WinScreen()));
+                                        builder: (context) =>
+                                            WinScreen(widget.game)));
                               }
                               // TODO: Check if the user has lost the game, if they did navigate them to the lose screen. You will need to pass the game to the LoseScreen.
                               else if (widget.game.wrongGuesses().length == 7) {

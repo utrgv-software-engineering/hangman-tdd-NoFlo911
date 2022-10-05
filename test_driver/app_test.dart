@@ -34,8 +34,10 @@ void main() {
 
     //Assignment of variable with the key of our guessing text field
     final guessLetterTextFinder = find.byValueKey('guess-letter-text');
+    final findScoreTextWidget = find.byValueKey('score-text');
 
     expect(await driver.getText(guessLetterTextFinder), "Guess Letter");
+    expect(await driver.getText(findScoreTextWidget), 'Score: 0');
   });
 
   test(
@@ -45,7 +47,7 @@ void main() {
     final findGuessingTextField = find.byValueKey('guess-textfield');
     final guessLetterBtnFinder = find.byValueKey('guess-letter-btn');
     final findLettersLeftProgressField = find.byValueKey('word-progress');
-
+    final findScoreTextWidget = find.byValueKey('score-text');
     //Since we just started a new game, we expect to have no progress toward the completion of the game
     expect(await driver.getText(findLettersLeftProgressField), '------');
 
@@ -58,6 +60,7 @@ void main() {
 
     //We expect for the game to now have registered that we have correctly guessed the first letter of the word banana that we instantiated it with
     expect(await driver.getText(findLettersLeftProgressField), 'b-----');
+    expect(await driver.getText(findScoreTextWidget), 'Score: 10');
   });
 
   test(
@@ -67,7 +70,7 @@ void main() {
     final findGuessingTextField = find.byValueKey('guess-textfield');
     final guessLetterBtnFinder = find.byValueKey('guess-letter-btn');
     final findLettersLeftProgressField = find.byValueKey('word-progress');
-
+    final findScoreTextWidget = find.byValueKey('score-text');
     //Here we are guessing the letter n
     await driver.tap(findGuessingTextField);
     await driver.enterText('n');
@@ -77,6 +80,7 @@ void main() {
 
     //We expect the game to register our guess of the letter n as correct and update our progress
     expect(await driver.getText(findLettersLeftProgressField), 'b-n-n-');
+    expect(await driver.getText(findScoreTextWidget), 'Score: 30');
   });
 
   test(
@@ -87,6 +91,7 @@ void main() {
     final guessLetterBtnFinder = find.byValueKey('guess-letter-btn');
     final findLettersLeftProgressField = find.byValueKey('word-progress');
     final findWrongGuessesField = find.byValueKey('wrong-guesses');
+    final findScoreTextWidget = find.byValueKey('score-text');
     //Here we are going to intentionally guess z incorrectly to check if the game registers it as incorrect
     await driver.tap(findGuessingTextField);
     await driver.enterText('z');
@@ -99,6 +104,7 @@ void main() {
 
     //We expect to see that our incorrect guess has been added to the list of incorrect guesses
     expect(await driver.getText(findWrongGuessesField), 'Wrong Guesses: z');
+    expect(await driver.getText(findScoreTextWidget), 'Score: 25');
   });
 
   test(
@@ -108,7 +114,7 @@ void main() {
     final findGuessingTextField = find.byValueKey('guess-textfield');
     final guessLetterBtnFinder = find.byValueKey('guess-letter-btn');
     final findWinText = find.byValueKey('win-game-text');
-
+    final findScoreTextWidget = find.byValueKey('score-text');
     //Here we will be guessing the last remaining letter 'a' to finish winning the game
     await driver.tap(findGuessingTextField);
     await driver.enterText('a');
@@ -118,6 +124,7 @@ void main() {
 
     //If we are successfully renavigated to the win screen we can expect to see this text
     expect(await driver.getText(findWinText), 'You Win');
+    expect(await driver.getText(findScoreTextWidget), 'Score: 45');
   });
 
   test('After winning the game, we should be able to start a new one',
@@ -139,7 +146,7 @@ void main() {
     final findGuessingTextField = find.byValueKey('guess-textfield');
     final guessLetterBtnFinder = find.byValueKey('guess-letter-btn');
     final findLoseText = find.byValueKey('lose-game-text');
-
+    final findScoreTextWidget = find.byValueKey('score-text');
     //We will be using a loop to incorrectly guess this list by iterating through it and guessing each time
     List<String> wrongGuesses = ['q', 'w', 'e', 'r', 't', 'y', 'u'];
     for (int i = 0; i < wrongGuesses.length; i++) {
@@ -152,16 +159,18 @@ void main() {
 
     //After incorrectly guessing 7 times, we expect to be renavigated to the Lose Screen
     expect(await driver.getText(findLoseText), 'You Lose');
+    expect(await driver.getText(findScoreTextWidget), 'Score: -35');
   });
 
   test('After losing a game, we should be able to start a new one', () async {
     //Here we assign variables using the keys we have placed on our widgets in our screens folder so we can use them in this test
     final newGameBtn = find.byValueKey('new-game-btn');
     final guessLetterTextFinder = find.byValueKey('guess-letter-text');
-
+    final findScoreTextWidget = find.byValueKey('score-text');
     //After tapping the new game button on the Lose Screen, we should be renavigated to the game screen
     await driver.tap(newGameBtn);
     expect(await driver.getText(guessLetterTextFinder), "Guess Letter");
+    expect(await driver.getText(findScoreTextWidget), 'Score: 0');
   });
 
   test('Guessing the same correct letter should return an error message',
